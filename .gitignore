@@ -2,3 +2,9 @@ bower_components
 node_modules
 **/.sass-cache
 **/.sass-cache/*
+
+
+# devmode
+#
+build/*
+!build/.gitkeep
