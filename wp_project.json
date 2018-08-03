@@ -1,0 +1,40 @@
+{
+    "theme": {
+        "name": "wpdev",
+        "URI": "http://wordpress.mj-mueller.de",
+        "author": "Michael Müller",
+        "authorURI": "https://mj-mueller.de",
+        "description": "Bla Bla Bla",
+        "version": "0.1.0",
+        "license": "MIT",
+        "licenseURI": "./LICENSE",
+        "tags": [
+            "white",
+            "grid"
+        ],
+        "textDomain": "wpdev"
+    },
+    "build": {
+        "proxy": "http://wordpress.mj-mueller.de",
+        "style": {
+            "watch": "./assets/scss/**/*.scss",
+            "src": "./assets/scss/style.scss",
+            "dest": "./build/"
+        },
+        "vendorJS": {
+            "watch": "./assets/js/vendor/*.js",
+            "src": "./assets/js/vendor/*.js",
+            "dest": "./build/js/"
+        },
+        "customJS": {
+            "watch": "./assets/js/custom/*.js",
+            "src": "./assets/js/custom/*.js",
+            "dest": "./build/js/"
+        },
+        "views": {
+            "watch": "./assets/views/**/*.php",
+            "src": "./assets/views/**/*.php",
+            "dest": "./build/"
+        }
+    }
+}
