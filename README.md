@@ -19,3 +19,11 @@ Here, you provide information on how to build your project.
 `customJS`
 
 `views`
+
+## TODO
+- print wp_project.theme information into style.css
+- implement other build tasks
+- implement sftp to test server
+- on test environment, the sourcemaps should actually work. Debugging has to be easy. not possible if only build-folder is uploaded to test server
+- automatically zip the entire thing
+- build a boilerplate theme
