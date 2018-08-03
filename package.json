@@ -1,0 +1,13 @@
+{
+  "name": "wpdev",
+  "version": "0.1.0",
+  "description": "boilerplate for building WordPress-themes using Gulp",
+  "keywords": [
+    "wordpress",
+    "gulp",
+    "sass",
+    "php"
+  ],
+  "author": "mitch",
+  "license": "MIT"
+}
