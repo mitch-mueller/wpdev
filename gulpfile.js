@@ -18,6 +18,21 @@ gulp.task('browser-sync', function() {
     })
 })
 
+gulp.task('style', function() {
+    return gulp.src(wp_project.build.style.src)
+    .pipe(gulpSourcemaps.init())
+    .pipe(gulpSass({
+        errLogToConsole: true,
+        outputStyle: 'compact'
+    }))
+    .on('error', console.error.bind(console))
+    .pipe(gulpSourcemaps.write({includeContent: false}))
+    .pipe(gulpSourcemaps.init({loadMaps: true}))
+    .pipe(gulpSourcemaps.write('./'))
+    .pipe(gulp.dest(wp_project.build.style.dest))
+    .pipe(browserSync.stream());
+})
+
 gulp.task('default', function() {
     
 });
