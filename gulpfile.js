@@ -23,7 +23,7 @@ gulp.task('style', function() {
     .pipe(gulpSourcemaps.init())
     .pipe(gulpSass({
         errLogToConsole: true,
-        outputStyle: 'compact'
+        outputStyle: 'compressed'
     }))
     .on('error', console.error.bind(console))
     .pipe(gulpSourcemaps.write({includeContent: false}))
