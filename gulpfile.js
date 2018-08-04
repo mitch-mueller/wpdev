@@ -65,6 +65,9 @@ gulp.task('views', function() {
     .pipe(gulp.dest(wp_project.build.views.dest));
 })
 
-gulp.task('default', function() {
-    
+gulp.task('default', ['browser-sync'], function() {
+    gulp.watch(wp_project.build.style.watch, () => gulpSequence('style', browserSync.reload));
+    gulp.watch(wp_project.build.vendorJS.watch, () => gulpSequence('vendorJS', browserSync.reload));
+    gulp.watch(wp_project.build.customJS.watch, () => gulpSequence('customJS', browserSync.reload));
+    gulp.watch(wp_project.build.views.watch, () => gulpSequence('views', browserSync.reload));
 });
