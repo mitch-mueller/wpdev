@@ -21,7 +21,6 @@ Here, you provide information on how to build your project.
 `views`
 
 ## TODO
-- print wp_project.theme information into style.css
 - implement sftp to test server
 - automatically zip the entire thing
 - build a boilerplate theme
