@@ -8,3 +8,5 @@ node_modules
 #
 build/*
 !build/.gitkeep
+assets/*
+!assets/**/.gitkeep
