@@ -82,6 +82,9 @@ gulp.task('views', () => {
 });
 
 gulp.task('default', ['browser-sync'], () => {
+
+    gulpSequence(['style', 'vendorJS', 'customJS', 'views'], browserSync.reload);
+
     gulp.watch(wp_project.build.style.watch, () => gulpSequence('style', browserSync.reload));
     gulp.watch(wp_project.build.vendorJS.watch, () => gulpSequence('vendorJS', browserSync.reload));
     gulp.watch(wp_project.build.customJS.watch, () => gulpSequence('customJS', browserSync.reload));
