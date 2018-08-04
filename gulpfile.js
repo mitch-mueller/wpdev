@@ -12,6 +12,7 @@ const gulpSequence      = require('gulp-sequence');
 const gulpSftp          = require('gulp-sftp');
 const gulpSourcemaps    = require('gulp-sourcemaps');
 const gulpUglify        = require('gulp-uglify');
+const gulpZip           = require('gulp-zip');
 
 
 gulp.task('browser-sync', () => {
@@ -81,12 +82,18 @@ gulp.task('views', () => {
     .pipe(gulp.dest(wp_project.build.views.dest));
 });
 
+gulp.task('zip', () => {
+    return gulp.src([wp_project.build.zip + "**"])
+    .pipe(gulpZip(wp_project.theme.name + "-v" + wp_project.theme.version + ".zip"))
+    .pipe(gulp.dest('./dist/'));
+})
+
 gulp.task('default', ['browser-sync'], () => {
 
-    gulpSequence(['style', 'vendorJS', 'customJS', 'views'], browserSync.reload);
+    gulpSequence(['style', 'vendorJS', 'customJS', 'views'], 'zip', browserSync.reload);
 
-    gulp.watch(wp_project.build.style.watch, () => gulpSequence('style', browserSync.reload));
-    gulp.watch(wp_project.build.vendorJS.watch, () => gulpSequence('vendorJS', browserSync.reload));
-    gulp.watch(wp_project.build.customJS.watch, () => gulpSequence('customJS', browserSync.reload));
-    gulp.watch(wp_project.build.views.watch, () => gulpSequence('views', browserSync.reload));
+    gulp.watch(wp_project.build.style.watch, () => gulpSequence('style', 'zip', browserSync.reload));
+    gulp.watch(wp_project.build.vendorJS.watch, () => gulpSequence('vendorJS', 'zip', browserSync.reload));
+    gulp.watch(wp_project.build.customJS.watch, () => gulpSequence('customJS', 'zip', browserSync.reload));
+    gulp.watch(wp_project.build.views.watch, () => gulpSequence('views', 'zip', browserSync.reload));
 });

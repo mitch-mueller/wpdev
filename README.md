@@ -22,5 +22,4 @@ Here, you provide information on how to build your project.
 
 ## TODO
 - implement sftp to test server
-- automatically zip the entire thing
 - build a boilerplate theme

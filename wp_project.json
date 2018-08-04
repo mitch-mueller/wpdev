@@ -24,17 +24,18 @@
         "vendorJS": {
             "watch": "./assets/js/vendor/*.js",
             "src": "./assets/js/vendor/*.js",
-            "dest": "./build/"
+            "dest": "./build/js/"
         },
         "customJS": {
             "watch": "./assets/js/custom/*.js",
             "src": "./assets/js/custom/*.js",
-            "dest": "./build/"
+            "dest": "./build/js/"
         },
         "views": {
             "watch": "./assets/views/**/*.php",
             "src": "./assets/views/**/*.php",
             "dest": "./build/"
-        }
+        },
+        "zip": "./build/"
     }
 }
