@@ -2,7 +2,9 @@ const wp_project        = require('./wp_project.json');
 
 const browserSync       = require('browser-sync');
 const gulp              = require('gulp');
+const gulpConcat        = require('gulp-concat');
 const gulpNotify        = require('gulp-notify');
+const gulpRename        = require('gulp-rename');
 const gulpSass          = require('gulp-sass');
 const gulpSequence      = require('gulp-sequence');
 const gulpSftp          = require('gulp-sftp');
@@ -32,6 +34,17 @@ gulp.task('style', function() {
     .pipe(gulp.dest(wp_project.build.style.dest))
     .pipe(browserSync.stream());
 })
+
+gulp.task('vendorJS', function() {
+    return gulp.src(wp_project.build.vendorJS.src)
+    .pipe(gulpConcat('vendor.js'))
+    .pipe(gulp.dest(wp_project.build.vendorJS.dest))
+    .pipe(gulpRename({
+        suffix: '.min'
+    }))
+    .pipe(gulpUglify())
+    .pipe(gulp.dest(wp_project.build.vendorJS.dest));
+});
 
 gulp.task('default', function() {
     
