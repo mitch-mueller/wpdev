@@ -39,12 +39,19 @@ gulp.task('vendorJS', function() {
     return gulp.src(wp_project.build.vendorJS.src)
     .pipe(gulpConcat('vendor.js'))
     .pipe(gulp.dest(wp_project.build.vendorJS.dest))
-    .pipe(gulpRename({
-        suffix: '.min'
-    }))
+    .pipe(gulpRename({suffix: '.min'}))
     .pipe(gulpUglify())
     .pipe(gulp.dest(wp_project.build.vendorJS.dest));
 });
+
+gulp.task('customJS', function() {
+    return gulp.src(wp_project.build.customJS.src)
+    .pipe(gulpConcat('custom.js'))
+    .pipe(gulp.dest(wp_project.build.customJS.dest))
+    .pipe(gulpRename({suffix: '.min'}))
+    .pipe(gulpUglify())
+    .pipe(gulp.dest(wp_project.build.customJS.dest));
+})
 
 gulp.task('default', function() {
     
