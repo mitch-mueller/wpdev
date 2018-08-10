@@ -20,6 +20,14 @@ Here, you provide information on how to build your project.
 
 `views`
 
+`zip`
+
+`sftp`
+
+### SFTP-Credentials
+
+`./.ftppass`-example
+
 ## TODO
-- implement sftp to test server
+- clean the build folder (also on remote)
 - build a boilerplate theme
