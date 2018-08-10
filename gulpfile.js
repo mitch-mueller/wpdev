@@ -86,7 +86,19 @@ gulp.task('zip', () => {
     return gulp.src([wp_project.build.zip + "**"])
     .pipe(gulpZip(wp_project.theme.name + "-v" + wp_project.theme.version + ".zip"))
     .pipe(gulp.dest('./dist/'));
-})
+});
+
+gulp.task('sftp', () => {
+    return gulp.src([wp_project.build.sftp.src + '*', wp_project.build.sftp.src + '**/*'])
+    .pipe(gulpSftp({
+        host: wp_project.build.sftp.host,
+        port: wp_project.build.sftp.port,
+        authFile: wp_project.build.sftp.authFile,
+        auth: wp_project.build.sftp.auth,
+        remotePath: wp_project.build.sftp.path + '/wp-content/themes/' + wp_project.theme.name,
+    }))
+    .pipe(gulpNotify({message: "Upload complete", onLast: true}));
+});
 
 gulp.task('default', ['browser-sync'], () => {
 

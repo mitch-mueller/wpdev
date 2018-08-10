@@ -3,6 +3,8 @@ node_modules
 **/.sass-cache
 **/.sass-cache/*
 
+# FTP authentication file
+.ftppass
 
 # devmode
 #
@@ -12,3 +14,4 @@ assets/*
 !assets/**/.gitkeep
 dist/*
 !dist/.gitkeep
+
