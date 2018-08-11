@@ -4,6 +4,7 @@ const browserSync       = require('browser-sync');
 const gulp              = require('gulp');
 const gulpAppendPrepend = require('gulp-append-prepend');
 const gulpConcat        = require('gulp-concat');
+const gulpClean         = require('gulp-clean');
 const gulpLEC           = require('gulp-line-ending-corrector');
 const gulpNotify        = require('gulp-notify');
 const gulpRename        = require('gulp-rename');
@@ -100,12 +101,22 @@ gulp.task('sftp', () => {
     .pipe(gulpNotify({message: "Upload complete", onLast: true}));
 });
 
+gulp.task('clean', () => {
+    return gulp.src([wp_project.build.style.dest,
+        wp_project.build.vendorJS.dest,
+        wp_project.build.customJS.dest,
+        wp_project.build.views.dest])
+    .pipe(gulpClean());
+});
+
+gulp.task('build', ['clean'], gulpSequence(['style', 'vendorJS', 'customJS', 'views'], 'zip', 'sftp'));
+
 gulp.task('default', ['browser-sync'], () => {
 
-    gulpSequence(['style', 'vendorJS', 'customJS', 'views'], 'zip', browserSync.reload);
+    gulpSequence(['style', 'vendorJS', 'customJS', 'views'], 'zip', 'sftp', browserSync.reload);
 
-    gulp.watch(wp_project.build.style.watch, () => gulpSequence('style', 'zip', browserSync.reload));
-    gulp.watch(wp_project.build.vendorJS.watch, () => gulpSequence('vendorJS', 'zip', browserSync.reload));
-    gulp.watch(wp_project.build.customJS.watch, () => gulpSequence('customJS', 'zip', browserSync.reload));
-    gulp.watch(wp_project.build.views.watch, () => gulpSequence('views', 'zip', browserSync.reload));
+    gulp.watch(wp_project.build.style.watch, () => gulpSequence('style', 'zip', 'sftp', browserSync.reload));
+    gulp.watch(wp_project.build.vendorJS.watch, () => gulpSequence('vendorJS', 'zip', 'sftp', browserSync.reload));
+    gulp.watch(wp_project.build.customJS.watch, () => gulpSequence('customJS', 'zip', 'sftp', browserSync.reload));
+    gulp.watch(wp_project.build.views.watch, () => gulpSequence('views', 'zip', 'sftp', browserSync.reload));
 });

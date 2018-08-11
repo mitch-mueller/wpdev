@@ -29,5 +29,5 @@ Here, you provide information on how to build your project.
 `./.ftppass`-example
 
 ## TODO
-- clean the build folder (also on remote)
+- ~~clean the build folder~~ (also on remote)
 - build a boilerplate theme
