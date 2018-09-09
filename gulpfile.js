@@ -1,4 +1,5 @@
 let wp_project          = require('./wp_project.json');
+let sshpass             = require('./sshpass.json');
 
 const browserSync       = require('browser-sync');
 const gulp              = require('gulp');
@@ -11,9 +12,15 @@ const gulpRename        = require('gulp-rename');
 const gulpSass          = require('gulp-sass');
 const gulpSequence      = require('gulp-sequence');
 const gulpSourcemaps    = require('gulp-sourcemaps');
+const gulpSSH           = require('gulp-ssh');
 const gulpUglify        = require('gulp-uglify');
 const gulpZip           = require('gulp-zip');
 
+
+let ssh = new gulpSSH({
+    ignoreErrors: false,
+    sshConfig: sshpass
+});
 
 gulp.task('browser-sync', () => {
     browserSync.init({
@@ -95,6 +102,12 @@ gulp.task('clean', () => {
         wp_project.build.views.dest])
     .pipe(gulpClean());
 });
+
+gulp.task('ssh-clean', () => {
+    
+});
+
+
 
 gulp.task('build', ['clean'], gulpSequence(['style', 'vendorJS', 'customJS', 'views'], 'zip'));
 

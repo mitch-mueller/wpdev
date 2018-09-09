@@ -3,8 +3,9 @@ node_modules
 **/.sass-cache
 **/.sass-cache/*
 
-# FTP authentication file
+# FTP/SSH authentication file
 .ftppass
+sshpass.json
 
 # devmode
 #
