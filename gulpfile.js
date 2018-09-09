@@ -10,7 +10,6 @@ const gulpNotify        = require('gulp-notify');
 const gulpRename        = require('gulp-rename');
 const gulpSass          = require('gulp-sass');
 const gulpSequence      = require('gulp-sequence');
-const gulpSftp          = require('gulp-sftp');
 const gulpSourcemaps    = require('gulp-sourcemaps');
 const gulpUglify        = require('gulp-uglify');
 const gulpZip           = require('gulp-zip');
@@ -89,18 +88,6 @@ gulp.task('zip', () => {
     .pipe(gulp.dest('./dist/'));
 });
 
-gulp.task('sftp', () => {
-    return gulp.src([wp_project.build.sftp.src + '*', wp_project.build.sftp.src + '**/*'])
-    .pipe(gulpSftp({
-        host: wp_project.build.sftp.host,
-        port: wp_project.build.sftp.port,
-        authFile: wp_project.build.sftp.authFile,
-        auth: wp_project.build.sftp.auth,
-        remotePath: wp_project.build.sftp.path + '/wp-content/themes/' + wp_project.theme.name,
-    }))
-    .pipe(gulpNotify({message: "Upload complete", onLast: true}));
-});
-
 gulp.task('clean', () => {
     return gulp.src([wp_project.build.style.dest,
         wp_project.build.vendorJS.dest,
@@ -109,14 +96,14 @@ gulp.task('clean', () => {
     .pipe(gulpClean());
 });
 
-gulp.task('build', ['clean'], gulpSequence(['style', 'vendorJS', 'customJS', 'views'], 'zip', 'sftp'));
+gulp.task('build', ['clean'], gulpSequence(['style', 'vendorJS', 'customJS', 'views'], 'zip'));
 
 gulp.task('default', ['browser-sync'], () => {
 
-    gulpSequence(['style', 'vendorJS', 'customJS', 'views'], 'zip', 'sftp', browserSync.reload);
+    gulpSequence(['style', 'vendorJS', 'customJS', 'views'], 'zip', browserSync.reload);
 
-    gulp.watch(wp_project.build.style.watch, () => gulpSequence('style', 'zip', 'sftp', browserSync.reload));
-    gulp.watch(wp_project.build.vendorJS.watch, () => gulpSequence('vendorJS', 'zip', 'sftp', browserSync.reload));
-    gulp.watch(wp_project.build.customJS.watch, () => gulpSequence('customJS', 'zip', 'sftp', browserSync.reload));
-    gulp.watch(wp_project.build.views.watch, () => gulpSequence('views', 'zip', 'sftp', browserSync.reload));
+    gulp.watch(wp_project.build.style.watch, () => gulpSequence('style', 'zip', browserSync.reload));
+    gulp.watch(wp_project.build.vendorJS.watch, () => gulpSequence('vendorJS', 'zip', browserSync.reload));
+    gulp.watch(wp_project.build.customJS.watch, () => gulpSequence('customJS', 'zip', browserSync.reload));
+    gulp.watch(wp_project.build.views.watch, () => gulpSequence('views', 'zip', browserSync.reload));
 });
