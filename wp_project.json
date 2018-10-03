@@ -37,13 +37,10 @@
             "dest": "./build/"
         },
         "zip": "./build/",
-        "sftp": {
+        "ssh": {
             "src": "./build/",
-            "host": "wordpress.mj-mueller.de",
-            "port": 22,
             "path": "/var/www/wordpress",
-            "authFile": "./.ftppass",
-            "auth": "main"
+            "authFile": "./sshpass.json"
         }
     }
 }

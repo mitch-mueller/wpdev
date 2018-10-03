@@ -1,5 +1,5 @@
 let wp_project          = require('./wp_project.json');
-let sshpass             = require('./sshpass.json');
+let sshpass             = require(wp_project.build.ssh.authFile);
 
 const browserSync       = require('browser-sync');
 const gulp              = require('gulp');
@@ -104,7 +104,9 @@ gulp.task('clean', () => {
 });
 
 gulp.task('ssh-clean', () => {
-    
+    //return ssh.exec('whoami').on('ssh2Data', e => console.log(e.toString('utf8')));
+    return ssh.exec("cd " + wp_project.build.ssh.path + "/wp-content/themes && rm -rdf " + wp_project.theme.name + " && mkdir " + wp_project.theme.name)
+    .on('ssh2Data', e => console.log(e.toString('utf8')));
 });
 
 
