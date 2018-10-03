@@ -127,10 +127,29 @@ gulp.task('build', ['clean', 'ssh-clean'], gulpSequence(['style', 'vendorJS', 'c
 
 gulp.task('default', ['browser-sync'], () => {
 
-    gulpSequence(['style', 'vendorJS', 'customJS', 'views'], 'zip', browserSync.reload);
+    gulpSequence('clean', ['style', 'vendorJS', 'customJS', 'views'], 'zip', 'ssh-clean', 'sftp-upload', browserSync.reload);
 
-    gulp.watch(wp_project.build.style.watch, () => gulpSequence('style', 'zip', browserSync.reload));
-    gulp.watch(wp_project.build.vendorJS.watch, () => gulpSequence('vendorJS', 'zip', browserSync.reload));
-    gulp.watch(wp_project.build.customJS.watch, () => gulpSequence('customJS', 'zip', browserSync.reload));
-    gulp.watch(wp_project.build.views.watch, () => gulpSequence('views', 'zip', browserSync.reload));
+    // SCSS-Watcher
+    gulp.watch(wp_project.build.style.watch + "**/*.scss", () => gulpSequence('style', 'zip', 'ssh-clean', 'sftp-upload', browserSync.reload));
+    
+    // VendorJS-Watcher
+    gulp.watch(
+        [ wp_project.build.vendorJS.watch + "*.js",
+          wp_project.build.vendorJS.watch + "**/*.js"],
+        () => gulpSequence('vendorJS', 'zip', 'ssh-clean', 'sftp-upload', browserSync.reload)
+    );
+
+    // CustomJS-Watcher
+    gulp.watch(
+        [ wp_project.build.customJS.watch + "*.js",
+          wp_project.build.customJS.watch + "**/*.js" ],
+        () => gulpSequence('customJS', 'zip', 'ssh-clean', 'sftp-upload', browserSync.reload)
+    );
+
+    // Views-Watcher
+    gulp.watch(
+        [ wp_project.build.views.watch + "*.php",
+            wp_project.build.views.watch + "**/*.php"], 
+        () => gulpSequence('views', 'zip', 'ssh-clean', 'sftp-upload', browserSync.reload)
+    );
 });
