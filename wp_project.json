@@ -16,24 +16,29 @@
     },
     "build": {
         "proxy": "http://wordpress.mj-mueller.de",
+        "assets": {
+            "watch": "./src/assets/",
+            "src": "./src/assets/**/*",
+            "dest": "./build/assets/"
+        },
         "style": {
-            "watch": "./assets/scss/",
-            "src": "./assets/scss/style.scss",
+            "watch": "./src/scss/",
+            "src": "./src/scss/style.scss",
             "dest": "./build/"
         },
         "vendorJS": {
-            "watch": "./assets/js/vendor/",
-            "src": "./assets/js/vendor/**/*.js",
+            "watch": "./src/js/vendor/",
+            "src": "./src/js/vendor/**/*.js",
             "dest": "./build/"
         },
         "customJS": {
-            "watch": "./assets/js/custom/",
-            "src": "./assets/js/custom/**/*.js",
+            "watch": "./src/js/custom/",
+            "src": "./src/js/custom/**/*.js",
             "dest": "./build/"
         },
         "views": {
-            "watch": "./assets/views/",
-            "src": "./assets/views/**/*.php",
+            "watch": "./src/views/",
+            "src": "./src/views/**/*.php",
             "dest": "./build/"
         },
         "zip": "./build/",

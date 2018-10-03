@@ -11,8 +11,8 @@ sshpass.json
 #
 build/*
 !build/.gitkeep
-assets/*
-!assets/**/.gitkeep
+src/*
+!src/**/.gitkeep
 dist/*
 !dist/.gitkeep
 

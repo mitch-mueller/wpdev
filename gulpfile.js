@@ -84,6 +84,11 @@ gulp.task('customJS', () => {
     .pipe(gulp.dest(wp_project.build.customJS.dest));
 });
 
+gulp.task('assets', () => {
+    return gulp.src(wp_project.build.assets.src)
+    .pipe(gulp.dest(wp_project.build.assets.dest))
+})
+
 gulp.task('views', () => {
     return gulp.src(wp_project.build.views.src)
     .pipe(gulpLEC())
@@ -123,15 +128,22 @@ gulp.task('sftp-upload', () => {
 
 
 
-gulp.task('build', ['clean', 'ssh-clean'], gulpSequence(['style', 'vendorJS', 'customJS', 'views'], ['zip', 'sftp-upload']));
+gulp.task('build', ['clean', 'ssh-clean'], gulpSequence(['style', 'vendorJS', 'customJS', 'views', 'assets'], ['zip', 'sftp-upload']));
 
 gulp.task('default', ['browser-sync'], () => {
 
-    gulpSequence('clean', ['style', 'vendorJS', 'customJS', 'views'], 'zip', 'ssh-clean', 'sftp-upload', browserSync.reload);
+    gulpSequence('clean', ['style', 'vendorJS', 'customJS', 'views', 'assets'], 'zip', 'ssh-clean', 'sftp-upload', browserSync.reload);
 
     // SCSS-Watcher
     gulp.watch(wp_project.build.style.watch + "**/*.scss", () => gulpSequence('style', 'zip', 'ssh-clean', 'sftp-upload', browserSync.reload));
     
+    // Assets-Watcher
+    gulp.watch(
+        [ wp_project.build.assets.watch + "*",
+          wp_project.build.assets.watch + "**/*"],
+          () => gulpSequence('assets', 'zip', 'ssh-clean', 'sftp-upload', browserSync.reload)
+    );
+
     // VendorJS-Watcher
     gulp.watch(
         [ wp_project.build.vendorJS.watch + "*.js",
