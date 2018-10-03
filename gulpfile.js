@@ -11,6 +11,7 @@ const gulpNotify        = require('gulp-notify');
 const gulpRename        = require('gulp-rename');
 const gulpSass          = require('gulp-sass');
 const gulpSequence      = require('gulp-sequence');
+const gulpSftp          = require('gulp-sftp');
 const gulpSourcemaps    = require('gulp-sourcemaps');
 const gulpSSH           = require('gulp-ssh');
 const gulpUglify        = require('gulp-uglify');
@@ -105,13 +106,24 @@ gulp.task('clean', () => {
 
 gulp.task('ssh-clean', () => {
     //return ssh.exec('whoami').on('ssh2Data', e => console.log(e.toString('utf8')));
-    return ssh.exec("cd " + wp_project.build.ssh.path + "/wp-content/themes && rm -rdf " + wp_project.theme.name + " && mkdir " + wp_project.theme.name)
+    return ssh.exec("cd " + wp_project.build.ssh.path + "/wp-content/themes && rm -rdf " + wp_project.theme.name /*+ " && mkdir " + wp_project.theme.name*/)
     .on('ssh2Data', e => console.log(e.toString('utf8')));
 });
 
+gulp.task('sftp-upload', () => {
+    return gulp.src([wp_project.build.ssh.src + '*', wp_project.build.ssh.src + '**/*'])
+    .pipe(gulpSftp({
+        host: sshpass.host,
+        port: sshpass.port,
+        user: sshpass.username,
+        pass: sshpass.password,
+        remotePath: wp_project.build.ssh.path + '/wp-content/themes/' + wp_project.theme.name,
+    }));
+})
 
 
-gulp.task('build', ['clean'], gulpSequence(['style', 'vendorJS', 'customJS', 'views'], 'zip'));
+
+gulp.task('build', ['clean', 'ssh-clean'], gulpSequence(['style', 'vendorJS', 'customJS', 'views'], ['zip', 'sftp-upload']));
 
 gulp.task('default', ['browser-sync'], () => {
 
